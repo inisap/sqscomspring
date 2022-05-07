@@ -19,6 +19,6 @@ public class Pedido {
     private int qtdProduto;
 
     @JsonProperty("endereco_entrega")
-    private int endEntrega;
+    private String endEntrega;
 
 }

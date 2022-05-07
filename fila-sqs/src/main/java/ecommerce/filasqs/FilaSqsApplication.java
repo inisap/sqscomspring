@@ -26,8 +26,6 @@ public class FilaSqsApplication {
 		return AmazonSQSAsyncClientBuilder
 				.standard()
 				.withRegion(region)
-				.withCredentials(
-						new DefaultAWSCredentialsProviderChain())
 				.build();
 	}
 
