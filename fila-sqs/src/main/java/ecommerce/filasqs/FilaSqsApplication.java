@@ -1,6 +1,7 @@
 package ecommerce.filasqs;
 
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,18 +18,21 @@ public class FilaSqsApplication {
 		SpringApplication.run(FilaSqsApplication.class, args);
 	}
 
-	@Value("${cloud.aws.region.static}")
+	@Value("${aws.region.static}")
 	private String region;
+
+	@Value("${aws.queue.endpoint}")
+	private String endereco;
 
 	@Bean
 	@Primary
 	public AmazonSQSAsync amazonSQSAsync() {
 		return AmazonSQSAsyncClientBuilder
 				.standard()
-				.withRegion(region)
+				.withCredentials(new DefaultAWSCredentialsProviderChain())
+				.withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endereco, region))
 				.build();
 	}
-
 
 	@Bean
 	public QueueMessagingTemplate queueMessagingTemplate(
